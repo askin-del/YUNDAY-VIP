@@ -32,7 +32,7 @@ export default function LoginPage() {
       <div className="auth-card">
         <div className="auth-logo">
           <span className="logo-icon">⬡</span>
-          <span className="logo-text">TeamSpace</span>
+          <span className="logo-text">YUNDAY VIP</span>
         </div>
         <h1>Bon retour</h1>
         <p className="auth-sub">Connectez-vous à votre espace privé</p>

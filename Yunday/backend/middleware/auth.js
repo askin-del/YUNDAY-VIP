@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const db = require('../db');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'teamspace-secret-change-in-prod';
+const JWT_SECRET = process.env.JWT_SECRET || 'yunday-vip-secret-change-in-prod';
 
 function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;

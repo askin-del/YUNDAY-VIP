@@ -8,8 +8,6 @@ import MessageItem from './MessageItem'
 import FileUploadProgress from './FileUploadProgress'
 import './ChatArea.css'
 
-const CHUNK_SIZE = 2 * 1024 * 1024 // 2MB par chunk
-
 export default function ChatArea() {
   const { currentChannel, messages, setMessages, user, typingUsers } = useStore()
   const socketRef = useSocket()
@@ -25,6 +23,12 @@ export default function ChatArea() {
     api.get(`/messages/${currentChannel.id}`)
       .then(setMessages)
       .catch(console.error)
+  }, [currentChannel?.id])
+
+  // Rejoindre le canal via socket
+  useEffect(() => {
+    if (!currentChannel || !socketRef.current) return
+    socketRef.current.emit('channel:join', currentChannel.id)
   }, [currentChannel?.id])
 
   // Scroll to bottom
@@ -66,47 +70,36 @@ export default function ChatArea() {
     }, 2000)
   }
 
-  // Upload chunked
+  // Upload simple
   const uploadFile = async (file) => {
     const uploadId = Math.random().toString(36).substring(2)
-    const totalChunks = Math.ceil(file.size / CHUNK_SIZE)
 
     setUploads(prev => [...prev, { id: uploadId, name: file.name, progress: 0, done: false }])
 
     try {
-      for (let i = 0; i < totalChunks; i++) {
-        const chunk = file.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE)
-        const form = new FormData()
-        form.append('chunk', chunk)
-        form.append('uploadId', uploadId)
-        form.append('chunkIndex', i)
-        form.append('totalChunks', totalChunks)
-        form.append('fileName', file.name)
-        form.append('fileSize', file.size)
-        form.append('mimeType', file.type)
-        form.append('channelId', currentChannel.id)
+      const form = new FormData()
+      form.append('file', file)
+      form.append('channelId', currentChannel.id)
 
-        const res = await api.post('/files/chunk', form, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        })
-
-        const progress = Math.round(((i + 1) / totalChunks) * 100)
-        setUploads(prev => prev.map(u => u.id === uploadId ? { ...u, progress } : u))
-
-        if (res.complete && res.file) {
-          // Notifier via socket
-          socketRef.current?.emit('file:uploaded', {
-            channelId: currentChannel.id,
-            fileId: res.file.id
-          })
-
-          setUploads(prev => prev.map(u => u.id === uploadId ? { ...u, done: true } : u))
-          setTimeout(() => {
-            setUploads(prev => prev.filter(u => u.id !== uploadId))
-          }, 2000)
-          toast.success(`${file.name} uploadé !`)
+      const res = await api.post('/files/simple', form, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100)
+          setUploads(prev => prev.map(u => u.id === uploadId ? { ...u, progress } : u))
         }
-      }
+      })
+
+      // Notifier via socket
+      socketRef.current?.emit('file:uploaded', {
+        channelId: currentChannel.id,
+        fileId: res.file.id
+      })
+
+      setUploads(prev => prev.map(u => u.id === uploadId ? { ...u, done: true } : u))
+      setTimeout(() => {
+        setUploads(prev => prev.filter(u => u.id !== uploadId))
+      }, 2000)
+      toast.success(`${file.name} uploadé !`)
     } catch (err) {
       toast.error(`Erreur upload: ${err.message}`)
       setUploads(prev => prev.filter(u => u.id !== uploadId))

@@ -23,7 +23,7 @@ export default function Sidebar() {
       <div className="sidebar-header">
         <div className="workspace-name">
           <span className="ws-icon">⬡</span>
-          <span>TeamSpace</span>
+          <span>YUNDAY VIP</span>
         </div>
       </div>
 

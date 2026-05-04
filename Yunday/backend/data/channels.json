@@ -1,0 +1,20 @@
+[
+  {
+    "id": "general",
+    "name": "général",
+    "description": "Canal principal",
+    "createdAt": "2026-05-04T09:15:26.374Z"
+  },
+  {
+    "id": "files",
+    "name": "fichiers",
+    "description": "Partage de fichiers",
+    "createdAt": "2026-05-04T09:15:26.375Z"
+  },
+  {
+    "id": "random",
+    "name": "random",
+    "description": "Discussions diverses",
+    "createdAt": "2026-05-04T09:15:26.375Z"
+  }
+]

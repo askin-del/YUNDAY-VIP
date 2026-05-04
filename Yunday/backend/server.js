@@ -18,7 +18,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL || 'http://localhost:5174',
     methods: ['GET', 'POST'],
     credentials: true
   },
@@ -27,7 +27,7 @@ const io = new Server(server, {
 
 // Middlewares
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5174',
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -60,9 +60,9 @@ io.use(authenticateSocket);
 // Setup socket handlers
 setupSocketHandlers(io);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 server.listen(PORT, () => {
-  console.log(`🚀 TeamSpace server running on port ${PORT}`);
+  console.log(`🚀 YUNDAY VIP server running on port ${PORT}`);
 });
 
 module.exports = { app, io };

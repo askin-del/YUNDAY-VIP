@@ -15,7 +15,7 @@ export function SocketProvider({ children }) {
   useEffect(() => {
     if (!token) return
 
-    const socket = io('/', {
+    const socket = io('http://localhost:3002', {
       auth: { token },
       transports: ['websocket']
     })

@@ -139,7 +139,9 @@ router.get('/download/:id', authenticate, (req, res) => {
   const filePath = path.join(UPLOAD_DIR, file.fileName);
   if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'Fichier manquant sur le disque' });
 
-  res.download(filePath, file.name);
+  res.setHeader('Content-Disposition', `attachment; filename="${file.name}"`);
+  res.setHeader('Content-Type', 'application/octet-stream');
+  res.sendFile(filePath);
 });
 
 module.exports = router;

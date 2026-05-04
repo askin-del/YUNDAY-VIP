@@ -1,7 +1,7 @@
 {
-  "name": "teamspace-backend",
+  "name": "yunday-vip-backend",
   "version": "1.0.0",
-  "description": "TeamSpace backend - chat & file sharing",
+  "description": "YUNDAY VIP backend - chat & file sharing",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

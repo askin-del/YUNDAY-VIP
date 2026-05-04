@@ -112,7 +112,7 @@ export default function MessageItem({ message, prevMessage }) {
             <a
               href={`/api/files/download/${message.file.id}`}
               className="file-download btn btn-ghost"
-              download
+              download={message.file.name}
             >
               ↓
             </a>

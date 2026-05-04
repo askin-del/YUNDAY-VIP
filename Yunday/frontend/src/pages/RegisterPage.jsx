@@ -33,7 +33,7 @@ export default function RegisterPage() {
       <div className="auth-card">
         <div className="auth-logo">
           <span className="logo-icon">⬡</span>
-          <span className="logo-text">TeamSpace</span>
+          <span className="logo-text">YUNDAY VIP</span>
         </div>
         <h1>Rejoindre l'équipe</h1>
         <p className="auth-sub">Vous avez besoin d'un code d'invitation</p>
