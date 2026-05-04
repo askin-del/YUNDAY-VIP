@@ -4,16 +4,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'https://yunday-vip.onrender.com',
-        changeOrigin: true
-      },
-      '/uploads': {
-        target: 'https://yunday-vip.onrender.com',
-        changeOrigin: true
-      }
-    }
+    port: 5173
   }
 })
