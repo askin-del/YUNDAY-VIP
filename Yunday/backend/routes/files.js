@@ -139,8 +139,14 @@ router.get('/download/:id', authenticate, (req, res) => {
   const filePath = path.join(UPLOAD_DIR, file.fileName);
   if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'Fichier manquant sur le disque' });
 
-  res.setHeader('Content-Disposition', `attachment; filename="${file.name}"`);
-  res.setHeader('Content-Type', 'application/octet-stream');
+  // Encodage correct du nom du fichier pour tous les navigateurs
+  const encodedFileName = encodeURIComponent(file.name);
+  const escapedFileName = file.name.replace(/"/g, '\\"');
+  
+  // RFC 5987 pour meilleure compatibilité navigateur
+  res.setHeader('Content-Disposition', `attachment; filename="${escapedFileName}"; filename*=UTF-8''${encodedFileName}`);
+  res.setHeader('Content-Type', file.mimeType || 'application/octet-stream');
+  res.setHeader('Content-Length', fs.statSync(filePath).size);
   res.sendFile(filePath);
 });
 
