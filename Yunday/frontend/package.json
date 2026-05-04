@@ -18,10 +18,11 @@
     "date-fns": "^2.30.0",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1"
+    ,
+    "vite": "^4.4.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
-    "@vitejs/plugin-react": "^4.0.3",
-    "vite": "^4.4.5"
+    "@vitejs/plugin-react": "^4.0.3"
   }
 }
