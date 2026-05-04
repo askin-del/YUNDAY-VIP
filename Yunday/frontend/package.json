@@ -17,8 +17,7 @@
     "zustand": "^4.4.1",
     "date-fns": "^2.30.0",
     "react-dropzone": "^14.2.3",
-    "react-hot-toast": "^2.4.1"
-    ,
+    "react-hot-toast": "^2.4.1",
     "vite": "^4.4.5"
   },
   "devDependencies": {
